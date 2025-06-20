@@ -11,18 +11,22 @@ export class MoviesService {
   ) {}
 
   async discoverMovies(params: Record<string, string>) {
-    const apiKey = this.configService.get<string>('TMDB_API_KEY');
-    const baseUrl = this.configService.get<string>('TMDB_API_URL');
-    const url = `${baseUrl}/discover/movie`;
+    try {
+      const apiKey = this.configService.get<string>('TMDB_API_KEY');
+      const baseUrl = this.configService.get<string>('TMDB_API_URL');
+      const url = `${baseUrl}/discover/movie`;
 
-    const response$ = this.httpService.get(url, {
-      params: {
-        api_key: apiKey,
-        // ...params, // e.g., year, with_genres, etc.
-      },
-    });
+      const response$ = this.httpService.get(url, {
+        params: {
+          api_key: apiKey,
+          // ...params, // e.g., year, with_genres, etc.
+        },
+      });
 
-    const response = await firstValueFrom(response$);
-    return response.data;
+      const response = await firstValueFrom(response$);
+      return response.data;
+    } catch (error) {
+      throw new Error(error);
+    }
   }
 }
