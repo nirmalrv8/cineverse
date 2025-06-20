@@ -7,6 +7,17 @@ export class MoviesController {
 
   constructor(private readonly moviesService: MoviesService) {}
 
+  @Get('genres')
+  async getGenres() {
+    try {
+      const genres = await this.moviesService.getGenres();
+      return genres;
+    } catch (error) {
+      this.logger.error(`Error fetching movie genres: ${error.message}`, error.stack);
+      throw error;
+    }
+  }
+
   @Get('suggest')
   async getSuggestions(@Query() filters: any) {
     try {
