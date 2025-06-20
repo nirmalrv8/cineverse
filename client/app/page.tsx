@@ -21,7 +21,7 @@ export default function LandingPage() {
       .catch(error => {
         console.error('Error fetching movie genres:', error);
       });
-  }, []);
+  }, [BASE_URL]);
 
   const handleGenreChange = (genreId: string) => {
     setSelectedGenres(prev =>

@@ -21,7 +21,7 @@ export default function ResultsPage() {
     <div style={{ padding: 24 }}>
       <Grid container spacing={3} justifyContent="center">
         {movies.map((movie: any) => (
-          <Grid item key={movie.id} sx={{ width: 200 }}>
+          <Grid component="div" key={movie.id} sx={{ width: 200 }}>
             <Card>
               {movie.poster_path && (
                 <CardMedia
