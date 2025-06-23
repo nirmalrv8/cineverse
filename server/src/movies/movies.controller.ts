@@ -39,4 +39,15 @@ export class MoviesController {
       throw error;
     }
   }
+
+  @Get(':id/trailers')
+  async getMovieTrailers(@Param('id') id: string) {
+    try {
+      const trailers = await this.moviesService.getMovieTrailers(id);
+      return trailers;
+    } catch (error) {
+      this.logger.error(`Error fetching trailers for movie id ${id}: ${error.message}`, error.stack);
+      throw error;
+    }
+  }
 }

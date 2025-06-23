@@ -65,4 +65,23 @@ export class MoviesService {
       throw new Error(error);
     }
   }
+
+  async getMovieTrailers(id: string) {
+    try {
+      const apiKey = this.configService.get<string>('TMDB_API_KEY');
+      const baseUrl = this.configService.get<string>('TMDB_API_URL');
+      const url = `${baseUrl}/movie/${id}/videos`;
+      const response$ = this.httpService.get(url, {
+        params: {
+          api_key: apiKey,
+        },
+      });
+      const response = await firstValueFrom(response$);
+      // Filter for trailers only
+      const trailers = response.data.results?.filter((video: any) => video.type === 'Trailer');
+      return trailers;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }
