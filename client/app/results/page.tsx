@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 
 import { Grid, Card, CardMedia, CardContent, Typography } from '@mui/material';
 
@@ -22,25 +23,27 @@ export default function ResultsPage() {
       <Grid container spacing={3} justifyContent="center">
         {movies.map((movie: any) => (
           <Grid component="div" key={movie.id} sx={{ width: 200 }}>
-            <Card>
-              {movie.poster_path && (
-                <CardMedia
-                  component="img"
-                  height="350"
-                  image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                  alt={movie.title}
-                  sx={{ objectFit: 'cover' }}
-                />
-              )}
-              <CardContent>
-                <Typography variant="h6" component="div">
-                  {movie.title}
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  {movie.release_date}
-                </Typography>
-              </CardContent>
-            </Card>
+            <Link href={`/results/${movie.id}`} style={{ textDecoration: 'none' }}>
+              <Card sx={{ cursor: 'pointer' }}>
+                {movie.poster_path && (
+                  <CardMedia
+                    component="img"
+                    height="350"
+                    image={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                    alt={movie.title}
+                    sx={{ objectFit: 'cover' }}
+                  />
+                )}
+                <CardContent>
+                  <Typography variant="h6" component="div">
+                    {movie.title}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {movie.release_date}
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Link>
           </Grid>
         ))}
       </Grid>
