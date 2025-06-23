@@ -29,7 +29,7 @@ export class MoviesService {
     }
   }
 
-  async discoverMovies(filters: Record<string, string>) {
+  async discoverMovies(filters: Record<string, string | number>) {
     try {
       const apiKey = this.configService.get<string>('TMDB_API_KEY');
       const baseUrl = this.configService.get<string>('TMDB_API_URL');
@@ -39,6 +39,8 @@ export class MoviesService {
         params: {
           api_key: apiKey,
           with_genres: filters.genres,
+          page: filters.page || 1,
+          sort_by: 'popularity.desc',
         },
       });
 

@@ -19,8 +19,10 @@ export class MoviesController {
   }
 
   @Get('suggest')
-  async getSuggestions(@Query() filters: any) {
+  async getSuggestions(@Query('genres') genres: string, @Query('page') page?: number) {
     try {
+      const filters: any = { genres };
+      if (page) filters.page = page;
       const suggestions = await this.moviesService.discoverMovies(filters);
       return suggestions;
     } catch (error) {
