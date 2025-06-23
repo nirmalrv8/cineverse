@@ -1,5 +1,5 @@
 # Stage 1: Build the app
-FROM node:18 AS builder
+FROM node:18-alpine AS builder
 
 WORKDIR /app
 
@@ -14,15 +14,17 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Serve the built app
-FROM node:18
+FROM node:18-alpine
 
 WORKDIR /app
 
-# Copy only the built app and dependencies
-COPY --from=builder /app ./
+# Copy build output
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/public ./public
+COPY --from=builder /app/.next/static ./.next/static
 
 # Expose the port the app runs on
 EXPOSE 4000
 
 # Start the app
-CMD ["npm", "run", "start"]
+CMD ["node", "server.js"]
