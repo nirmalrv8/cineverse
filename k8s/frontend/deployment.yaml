@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cineverse-frontend
+  labels:
+    app: cineverse-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cineverse-frontend
+  template:
+    metadata:
+      labels:
+        app: cineverse-frontend
+    spec:
+      containers:
+        - name: cineverse-frontend
+          image: nirmalrv8/cineverse-frontend:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 4000
+          env:
+            - name: PORT
+              value: "4000"
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 4000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
