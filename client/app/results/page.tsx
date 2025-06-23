@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
@@ -8,15 +8,40 @@ import { Grid, Card, CardMedia, CardContent, Typography } from '@mui/material';
 
 export default function ResultsPage() {
   const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState<any[]>([]);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
   const searchParams = useSearchParams();
+  const loader = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    const genres = searchParams.get('genres');
-    fetch(`${BASE_URL}/movies/suggest${genres ? `?genres=${genres}` : ''}`)
-      .then(res => res.json())
-      .then(data => setMovies(data.results || []));
+    const handleScroll = () => {
+      const scrollPosition = window.innerHeight + window.scrollY;
+      const threshold = document.body.offsetHeight - 10; // 10px from the bottom
+      if (scrollPosition >= threshold && hasMore) {
+        setPage(prev => prev + 1);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  useEffect(() => {
+    setMovies([]);
+    setPage(1);
+    setHasMore(true);
   }, [searchParams]);
+
+  useEffect(() => {
+    if (!hasMore) return;
+    const genres = searchParams.get('genres');
+    fetch(`${BASE_URL}/movies/suggest${genres ? `?genres=${genres}` : ''}&page=${page}`)
+      .then(res => res.json())
+      .then(data => {
+        setMovies(prev => [...prev, ...(data.results || [])]);
+        setHasMore(page < data.total_pages);
+      });
+  }, [page]);
 
   return (
     <div style={{ padding: 24 }}>

@@ -19,7 +19,6 @@ export default function MovieDetailsPage() {
     fetch(`${BASE_URL}/movies/${id}/trailers`)
       .then((res) => res.json())
       .then((data) => {
-        // data is an array, not an object with results
         const trailer = data.find(
           (v: any) => v.site === "YouTube" && v.type === "Trailer"
         );
