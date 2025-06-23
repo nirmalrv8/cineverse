@@ -1,4 +1,4 @@
-import { Controller, Get, Query, Logger } from '@nestjs/common';
+import { Controller, Get, Query, Param, Logger } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 
 @Controller('movies')
@@ -25,6 +25,17 @@ export class MoviesController {
       return suggestions;
     } catch (error) {
       this.logger.error(`Error fetching movie suggestions: ${error.message}`, error.stack);
+      throw error;
+    }
+  }
+
+  @Get(':id')
+  async getMovieById(@Param('id') id: string) {
+    try {
+      const movie = await this.moviesService.getMovieById(id);
+      return movie;
+    } catch (error) {
+      this.logger.error(`Error fetching movie details for id ${id}: ${error.message}`, error.stack);
       throw error;
     }
   }

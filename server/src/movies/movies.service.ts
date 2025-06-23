@@ -48,4 +48,21 @@ export class MoviesService {
       throw new Error(error);
     }
   }
+
+  async getMovieById(id: string) {
+    try {
+      const apiKey = this.configService.get<string>('TMDB_API_KEY');
+      const baseUrl = this.configService.get<string>('TMDB_API_URL');
+      const url = `${baseUrl}/movie/${id}`;
+      const response$ = this.httpService.get(url, {
+        params: {
+          api_key: apiKey,
+        },
+      });
+      const response = await firstValueFrom(response$);
+      return response.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }
