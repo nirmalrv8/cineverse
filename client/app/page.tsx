@@ -3,12 +3,15 @@
 import { useEffect, useState } from 'react';
 import { Button, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import { useRouter } from 'next/navigation';
+import { useSelector, useDispatch } from 'react-redux';
 
 export default function LandingPage() {
   const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
   const router = useRouter();
   const [genres, setGenres] = useState([]);
   const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+  const searchQuery = useSelector((state: any) => state.search.query);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     fetch(`${BASE_URL}/movies/genres`)
@@ -50,6 +53,7 @@ export default function LandingPage() {
         alignItems: 'center',
       }}
     >
+      <h1 style={{ fontSize: '2rem', marginBottom: '16px' }}>Welcome to CineVerse</h1>
       <FormGroup style={{ margin: '16px 0', maxHeight: 200, overflowY: 'auto', width: 1000 }}>
         {genres.map((genre: any) => (
           <FormControlLabel

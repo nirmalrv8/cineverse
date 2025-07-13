@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Karla } from "next/font/google";
 import "./globals.css";
 import { Suspense } from "react";
+import ReduxProvider from "./ReduxProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -11,6 +12,12 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const karla = Karla({
+  variable: "--font-karla",
+  subsets: ["latin"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -26,9 +33,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${karla.variable} antialiased`}
+        style={{ fontFamily: 'var(--font-karla), sans-serif' }}
       >
-        <Suspense>{children}</Suspense>
+        <ReduxProvider>
+          <Suspense>{children}</Suspense>
+        </ReduxProvider>
       </body>
     </html>
   );

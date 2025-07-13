@@ -15,7 +15,9 @@
     "@mui/material": "^7.1.2",
     "next": "15.3.4",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-redux": "^9.2.0",
+    "redux": "^5.0.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
