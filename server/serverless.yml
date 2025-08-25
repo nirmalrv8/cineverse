@@ -1,0 +1,25 @@
+service: cineverse-backend
+
+plugins:
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: ap-southeast-2
+  deploymentBucket:
+    name: cineverse-backend-sen
+  environment:
+    TMDB_API_KEY: TMDB_API_KEY
+    TMDB_API_URL: TMDB_API_URL
+
+functions:
+  main:
+    handler: dist/main.handler
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: ANY
+          path: '{proxy+}'
