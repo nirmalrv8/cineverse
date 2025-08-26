@@ -19,7 +19,7 @@ jobs:
           node-version: 20 # or your version
 
       - name: Install dependencies
-        run: npm install
+        run: npm install --force --production
 
       - name: Run backend build
         run: npm run build # or whatever your backend build command is
