@@ -39,5 +39,5 @@ jobs:
         with:
           cluster: cineverse-backend
           service: cineverse-backend-service
-          task-definition: cineverse-backend:3
+          task-definition: cineverse-backend
           wait-for-service-stability: true
