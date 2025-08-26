@@ -22,7 +22,7 @@ jobs:
         run: npm install --force --production
 
       - name: Run backend build
-        run: npm run build # or whatever your backend build command is
+        run: npx nest build
 
       # Optional: Run tests or deploy
       # - name: Run tests
