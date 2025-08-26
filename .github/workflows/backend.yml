@@ -19,10 +19,10 @@ jobs:
           node-version: 20 # or your version
 
       - name: Install dependencies
-        run: npm install --force --production
+        run: npm install --force
 
       - name: Run backend build
-        run: npx nest build
+        run: npm run build
 
       # Optional: Run tests or deploy
       # - name: Run tests
