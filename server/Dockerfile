@@ -26,8 +26,5 @@ WORKDIR /app
 COPY --from=builder /app/dist ./dist
 COPY --from=builder /app/node_modules ./node_modules
 
-# Optional: Copy environment variables if needed
-COPY .env .env
-
 # Start the app
 CMD ["node", "dist/main"]
